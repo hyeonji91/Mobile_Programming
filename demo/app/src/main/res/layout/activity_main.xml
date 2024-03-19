@@ -8,11 +8,28 @@
     tools:context=".MainActivity">
 
     <Button
-       android:id="@+id/button"
-       android:layout_width="match_parent"
-       android:layout_height="wrap_content"
-       android:text="추가하기" />
+        android:id="@+id/button1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="웹 사이트 띄우기" />
 
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="전화걸기" />
+
+    <Button
+        android:id="@+id/btn_new"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="다른 화면으로 이동" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="추가하기" />
 
     <LinearLayout
         android:id="@+id/container"
