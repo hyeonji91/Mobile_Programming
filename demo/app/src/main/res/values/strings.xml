@@ -1,11 +1,17 @@
 <resources>
     <string name="app_name">demo</string>
     <string name="title_activity_new">NewActivity</string>
+    <string name="khj">Hyeonji kim</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
     <string name="second_fragment_label">Second Fragment</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
+
+    <!--custom string-->
+    <string name="buttonExit_caption">Exit Application</string>
+    <string name="email_hint">Enter your First and Last name</string>
+    <string name="login">login</string>
 
     <string name="lorem_ipsum">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam in scelerisque sem. Mauris

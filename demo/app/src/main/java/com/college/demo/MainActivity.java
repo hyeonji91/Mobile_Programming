@@ -15,8 +15,11 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.Date;
+
 public class MainActivity extends AppCompatActivity {
     final String tag = "LifeCycle";
+    Button myBtn;
 
     /**
      * requestCode는 처음 startActivityForResult에서 설정한 1이 넘어오고
@@ -46,11 +49,14 @@ public class MainActivity extends AppCompatActivity {
     protected void onRestart() {
         super.onRestart();
         Log.d(tag, "In the onRestart() event");
+
     }
     @Override
     protected void onResume() {
         super.onResume();
         Log.d(tag, "In the onResume() event");
+        updateTime();
+
     }
     @Override
     protected void onPause() {
@@ -119,8 +125,20 @@ public class MainActivity extends AppCompatActivity {
                 //여기 toast의 this는 OnClickListener의 객체임
             }
         });
-
         Log.d(tag, "In the onCreate() event");
 
+
+        //2024.03.26
+        myBtn = (Button)findViewById(R.id.myBtn);
+        myBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                updateTime();
+            }
+        });
+    }
+
+    private void updateTime(){
+        myBtn.setText(new Date().toString(););
     }
 }
