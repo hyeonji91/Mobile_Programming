@@ -12,6 +12,14 @@
     <string name="buttonExit_caption">Exit Application</string>
     <string name="email_hint">Enter your First and Last name</string>
     <string name="login">login</string>
+    <string name="coffee_addons">what else in your coffee</string>
+    <string name="sugar">sugar</string>
+    <string name="cream">cream</string>
+    <string name="pay">pay</string>
+    <string name="file">pay</string>
+    <string name="open">pay</string>
+    <string name="create_new">pay</string>
+
 
     <string name="lorem_ipsum">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam in scelerisque sem. Mauris

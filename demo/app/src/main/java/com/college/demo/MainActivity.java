@@ -9,7 +9,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.LinearLayout;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -18,9 +20,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
-    final String tag = "LifeCycle";
+    final String TAG = "hjk";
     Button myBtn;
-
+    Button btnPay;
+    CheckBox chkCream;
+    CheckBox chkSugar;
+    RadioGroup radCoffeeType;
     /**
      * requestCode는 처음 startActivityForResult에서 설정한 1이 넘어오고
      * resultCode는 RESULT_OK 넘어옴
@@ -43,36 +48,36 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        Log.d(tag, "In the onStart() event");
+        Log.d(TAG, "In the onStart() event");
     }
     @Override
     protected void onRestart() {
         super.onRestart();
-        Log.d(tag, "In the onRestart() event");
+        Log.d(TAG, "In the onRestart() event");
 
     }
     @Override
     protected void onResume() {
         super.onResume();
-        Log.d(tag, "In the onResume() event");
+        Log.d(TAG, "In the onResume() event");
         updateTime();
 
     }
     @Override
     protected void onPause() {
         super.onPause();
-        Log.d(tag, "In the onPause() event");
+        Log.d(TAG, "In the onPause() event");
     }
     @Override
     protected void onStop() {
         super.onStop();
-        Log.d(tag, "In the onStop() event");
+        Log.d(TAG, "In the onStop() event");
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Log.e(tag, "In the onDestroy() event");
+        Log.e(TAG, "In the onDestroy() event");
 
     }
 
@@ -125,7 +130,7 @@ public class MainActivity extends AppCompatActivity {
                 //여기 toast의 this는 OnClickListener의 객체임
             }
         });
-        Log.d(tag, "In the onCreate() event");
+        Log.d(TAG, "In the onCreate() event");
 
 
         //2024.03.26
@@ -136,9 +141,75 @@ public class MainActivity extends AppCompatActivity {
                 updateTime();
             }
         });
+
+        //2024.03.28
+        chkSugar = (CheckBox)findViewById(R.id.chkSugar);
+        chkCream = (CheckBox)findViewById(R.id.chkCream);
+        btnPay = (Button)findViewById(R.id.btnPay);
+        chkSugar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (chkSugar.isChecked()){
+                    Log.d(TAG, "sugar가 체크");
+                }else{
+                    Log.d(TAG, "sugar가 체크해제");
+                }
+            }
+        });
+        /**핸들러는 등록한 순서의 역순으로 작동함
+        따라서 checkedChange가 먼저 실행됨**/
+        chkCream.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (chkCream.isChecked()){
+                    Log.d(TAG, "cream이 체크");
+                }else{
+                    Log.d(TAG, "cream이 체크해제");
+                }
+            }
+        });
+        chkCream.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked){
+                    Log.d(TAG, "dcream이 체크");
+                }else{
+                    Log.d(TAG, "dcream이 체크해제");
+                }
+            }
+        });
+        btnPay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String msg = "Coffee ";
+                if (chkCream.isChecked()){
+                    msg += " & cream ";
+                }
+                if (chkSugar.isChecked()){
+                    msg += " & Sugar";
+                }
+                Toast.makeText(getApplicationContext(), msg,
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        radCoffeeType = (RadioGroup)findViewById(R.id.radGroupCoffeeType);
+        radCoffeeType.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                Log.d(TAG, "radio : id "+ checkedId);
+                if(checkedId == R.id.radDecaf){
+                    Log.d(TAG, "Decof 선택 ");
+                } else if (checkedId == R.id.radExpresso) {
+                    Log.d(TAG, "Expresso 선택 ");
+                } else if (checkedId == R.id.radColombian) {
+                    Log.d(TAG, "Colombian 선택 ");
+                }
+            }
+        });
     }
 
     private void updateTime(){
-        myBtn.setText(new Date().toString(););
+        myBtn.setText(new Date().toString());
     }
 }
