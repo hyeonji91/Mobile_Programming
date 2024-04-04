@@ -2,20 +2,32 @@ package com.college.demo;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentTransaction;
 
 import java.util.Date;
 
@@ -26,6 +38,12 @@ public class MainActivity extends AppCompatActivity {
     CheckBox chkCream;
     CheckBox chkSugar;
     RadioGroup radCoffeeType;
+    TextView longPressTv;
+    MainFragment mainFragment;
+    MenuFragment menuFragment;
+    WebView browser;
+    ListView listView;
+    Button changeDataBtn;
     /**
      * requestCode는 처음 startActivityForResult에서 설정한 1이 넘어오고
      * resultCode는 RESULT_OK 넘어옴
@@ -207,9 +225,108 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
+
+        //24.04.2
+        longPressTv = (TextView) findViewById(R.id.longPress_tv);
+        registerForContextMenu(longPressTv); //현재 뷰가 컨텍스트 메뉴가 동작하는 뷰로 설정하기 위해서
+
+        mainFragment = new MainFragment();
+        menuFragment = new MenuFragment();
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.activity_main_container, mainFragment)
+                .commit();
+
+
+        //24.04.04
+        String[] names = {"LEE", "CHOI", "KIM", "JEONG", "RHO"};
+        listView = (ListView) findViewById(R.id.listView);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, names);
+        listView.setAdapter(adapter);
+
+//        String[] numbers = {"1","2","3","4","5"};
+        Integer[] numbers = {1,2,3,4,5};
+        changeDataBtn = (Button) findViewById(R.id.changeDataBtn);
+        changeDataBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1, numbers);
+                ArrayAdapter<Integer> adapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1, numbers);
+                listView.setAdapter(adapter);
+            }
+        });
     }
+
+
+
+
+
+
+
 
     private void updateTime(){
         myBtn.setText(new Date().toString());
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.game_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override //메뉴 이벤트 핸들러
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        //Handle item selection
+        if(item.getItemId() == R.id.new_game){
+            newGame();
+            return true;
+        } else if (item.getItemId() == R.id.help){
+            showHelp();
+            return true;
+        } else
+            return super.onOptionsItemSelected(item);
+    }
+
+
+
+    private void newGame(){
+        Toast.makeText(this, "new_game 메뉴가 선택됨", Toast.LENGTH_LONG);
+    }
+    private void showHelp(){
+        Toast.makeText(this, "help 메뉴가 선택됨", Toast.LENGTH_LONG);
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        //title은 icon도 가능
+        menu.setHeaderTitle("Choose a color");
+        //add menu
+        menu.add(0, v.getId(), 0, "Yellow");
+        menu.add(0, v.getId(), 0, "Gray");
+        menu.add(0, v.getId(), 0, "Cyan");
+    }
+
+
+
+    //context menu item select listener
+    @Override
+    public boolean onContextItemSelected(@NonNull MenuItem item) {
+        if(item.getTitle() == "Yellow"){
+            longPressTv.setBackgroundColor(Color.YELLOW);
+        } else if (item.getTitle() == "Gray"){
+            longPressTv.setBackgroundColor(Color.GRAY);
+        } else if (item.getTitle() == "Cyan"){
+            longPressTv.setBackgroundColor(Color.CYAN);
+        }
+        return true;
+//        return super.onContextItemSelected(item);
+    }
+
+    public void onFragmentChanged(int index){
+        if(index == 0)
+            getSupportFragmentManager().beginTransaction().replace(R.id.activity_main_container, menuFragment).commit();
+        else if(index == 1)
+            getSupportFragmentManager().beginTransaction().replace(R.id.activity_main_container, mainFragment).commit();
     }
 }
