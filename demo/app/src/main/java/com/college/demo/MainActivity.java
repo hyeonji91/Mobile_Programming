@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -20,6 +21,7 @@ import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RadioGroup;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
@@ -44,6 +46,10 @@ public class MainActivity extends AppCompatActivity {
     WebView browser;
     ListView listView;
     Button changeDataBtn;
+    TextView spinnerTv;
+    Spinner spinner;
+    String[] items = {"mike",  "angel", "crow", "john", "ginnie", "sally", "cohen", "rice"};
+    Button spinnerRefreshBtn;
     /**
      * requestCode는 처음 startActivityForResult에서 설정한 1이 넘어오고
      * resultCode는 RESULT_OK 넘어옴
@@ -253,6 +259,39 @@ public class MainActivity extends AppCompatActivity {
 //                ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1, numbers);
                 ArrayAdapter<Integer> adapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1, numbers);
                 listView.setAdapter(adapter);
+            }
+        });
+
+        //2024.04.09
+        spinnerTv = (TextView) findViewById(R.id.spinner_tv);
+        spinner = (Spinner) findViewById(R.id.spinner);
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(
+                this, android.R.layout.simple_spinner_item, items
+        );
+        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(spinnerAdapter);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                spinnerTv.setText(items[position]);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                spinnerTv.setText("");
+            }
+        });
+
+        spinnerRefreshBtn = (Button) findViewById(R.id.spinner_refresh_btn);
+        spinnerRefreshBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                items = new String[] {"1", "2", "3", "4"};
+                ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(
+                        getApplicationContext(), android.R.layout.simple_spinner_item, items
+                );
+                spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spinner.setAdapter(spinnerAdapter);
             }
         });
     }
