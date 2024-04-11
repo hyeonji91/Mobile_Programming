@@ -13,6 +13,22 @@
         android:orientation="vertical"
         >
         <Button
+            android:id="@+id/changeImgBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="change image"
+            />
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/img1"
+            />
+        <com.college.demo.MyDrawEx
+            android:layout_width="match_parent"
+            android:layout_height="400dp"
+            />
+        <Button
             android:id="@+id/spinner_refresh_btn"
             android:text="spinner refresh"
             android:layout_width="match_parent"
